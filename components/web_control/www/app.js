@@ -100,6 +100,12 @@ function startTelemetryLoop() {
                 const data = await response.json();
                 batteryElement.textContent = `${data.battery}%`;
                 speedElement.textContent = `${data.speed.toFixed(1)} km/h`;
+                
+                if (data.sensors) {
+                    document.getElementById('dist-left').textContent = data.sensors[0];
+                    document.getElementById('dist-center').textContent = data.sensors[1];
+                    document.getElementById('dist-right').textContent = data.sensors[2];
+                }
             }
         } catch (error) {
             console.error('Telemetry fetch failed:', error);

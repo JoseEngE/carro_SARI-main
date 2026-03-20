@@ -3,5 +3,5 @@
 idf_component_register(
     SRCS "main.c"
     INCLUDE_DIRS "."
-    REQUIRES motor_control web_control servo_control wall_follower sensor_manager ble_serial
+    REQUIRES motor_control web_control servo_control wall_follower sensor_manager
 )

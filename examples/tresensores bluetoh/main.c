@@ -18,9 +18,9 @@
 VL53L0X_Dev_t dev1, dev2, dev3;
 
 SensorConfig_t sensors[SENSOR_COUNT] = {
-    { .xshut_pin = 14, .i2c_address = 0x30, .device = &dev1, .offset_mm = OFFSET_SENSOR_1, .active = false }, // S1
-    { .xshut_pin = 13, .i2c_address = 0x31, .device = &dev2, .offset_mm = OFFSET_SENSOR_2, .active = false }, // S2
-    { .xshut_pin = 12, .i2c_address = 0x32, .device = &dev3, .offset_mm = OFFSET_SENSOR_3, .active = false }  // S3
+    { .xshut_pin = 14, .i2c_address = 0x30, .device = &dev1, .offset_mm = OFFSET_SENSOR_RIGHT, .active = false }, // S1
+    { .xshut_pin = 13, .i2c_address = 0x31, .device = &dev2, .offset_mm = OFFSET_SENSOR_CENTER, .active = false }, // S2
+    { .xshut_pin = 12, .i2c_address = 0x32, .device = &dev3, .offset_mm = OFFSET_SENSOR_LEFT, .active = false }  // S3
 };
 
 // process_decision removed per user request

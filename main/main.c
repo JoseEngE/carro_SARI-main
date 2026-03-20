@@ -15,7 +15,6 @@
 
 #include "wall_follower.h"
 #include "sensor_manager.h"
-#include "ble_serial.h"
 
 static const char *TAG = "MAIN";
 
@@ -30,14 +29,17 @@ static const char *TAG = "MAIN";
 VL53L0X_Dev_t dev1, dev2, dev3;
 
 SensorConfig_t sensors[SENSOR_COUNT] = {
-    { .xshut_pin = 14, .i2c_address = 0x30, .device = &dev1, .offset_mm = OFFSET_SENSOR_1, .active = false }, // S1 (Right)
-    { .xshut_pin = 13, .i2c_address = 0x31, .device = &dev2, .offset_mm = OFFSET_SENSOR_2, .active = false }, // S2 (Center)
-    { .xshut_pin = 12, .i2c_address = 0x32, .device = &dev3, .offset_mm = OFFSET_SENSOR_3, .active = false }  // S3 (Left)
+    { .xshut_pin = 14, .i2c_address = 0x30, .device = &dev1, .offset_mm = OFFSET_SENSOR_RIGHT, .active = false }, // S1 (Right)
+    { .xshut_pin = 13, .i2c_address = 0x31, .device = &dev2, .offset_mm = OFFSET_SENSOR_CENTER, .active = false }, // S2 (Center)
+    { .xshut_pin = 12, .i2c_address = 0x32, .device = &dev3, .offset_mm = OFFSET_SENSOR_LEFT, .active = false }  // S3 (Left)
 };
 
 // System State
 volatile bool autonomous_mode = false;
 volatile uint8_t global_speed_limit = 50;
+volatile uint16_t global_dist_left = 8190;
+volatile uint16_t global_dist_center = 8190;
+volatile uint16_t global_dist_right = 8190;
 
 float map_range(float x, float in_min, float in_max, float out_min, float out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -52,13 +54,18 @@ void auto_navigation_task(void *pvParameters) {
     VL53L0X_RangingMeasurementData_t results[SENSOR_COUNT];
 
     while (1) {
+        // Always read sensors to update global telemetry
+        sensor_manager_read_all(sensors, SENSOR_COUNT, results);
+
+        uint16_t d_right = sensors[0].active ? results[0].RangeMilliMeter : 8190;
+        uint16_t d_center = sensors[1].active ? results[1].RangeMilliMeter : 8190;
+        uint16_t d_left = sensors[2].active ? results[2].RangeMilliMeter : 8190;
+
+        global_dist_right = d_right;
+        global_dist_center = d_center;
+        global_dist_left = d_left;
+
         if (autonomous_mode) {
-            sensor_manager_read_all(sensors, SENSOR_COUNT, results);
-
-            uint16_t d_right = sensors[0].active ? results[0].RangeMilliMeter : 8190;
-            uint16_t d_center = sensors[1].active ? results[1].RangeMilliMeter : 8190;
-            uint16_t d_left = sensors[2].active ? results[2].RangeMilliMeter : 8190;
-
             int8_t auto_speed = 0;
             int8_t auto_steering = 0;
             wall_follower_process(d_left, d_center, d_right, &auto_speed, &auto_steering);
@@ -75,8 +82,6 @@ void auto_navigation_task(void *pvParameters) {
             float mapped_angle = map_range((float)auto_steering, -100.0f, 100.0f, 75.0f, 41.0f);
             servo_set_angle(mapped_angle);
 
-            // Send to BLE
-            ble_serial_print("AutoNAV | L:%4d C:%4d R:%4d | Spd:%d Str:%d\n", d_left, d_center, d_right, auto_speed, auto_steering);
             
             // Print to Serial Monitor
             ESP_LOGI(TAG, "L:%4d C:%4d R:%4d | Spd:%d Str:%d", d_left, d_center, d_right, auto_speed, auto_steering);
@@ -212,9 +217,6 @@ void app_main(void) {
     ESP_LOGI(TAG, "   http://192.168.4.1");
     ESP_LOGI(TAG, "");
     
-    // Initialize BLE Serial Logger
-    ble_serial_init();
-
     ESP_LOGI(TAG, "Initializing Sensor Manager...");
     if (sensor_manager_init(sensors, SENSOR_COUNT, I2C_SDA_PIN, I2C_SCL_PIN, I2C_FREQ_HZ, SENSOR_MODE_HIGH_PRECISION) == ESP_OK) {
         xTaskCreate(auto_navigation_task, "auto_nav_task", 4096, NULL, 5, NULL);
@@ -225,9 +227,9 @@ void app_main(void) {
     // Telemetry task - send data to web interface
     while (1) {
         if (web_control_is_connected()) {
-            // Send telemetry (battery, speed, signal)
-            // For now, using dummy values
-            web_control_send_telemetry(87, 0.0, 100);
+            // Send telemetry (battery, speed, signal, sensors)
+            // For now, using dummy values for some, actuals for distances
+            web_control_send_telemetry(87, 0.0, 100, global_dist_left, global_dist_center, global_dist_right);
         }
         vTaskDelay(pdMS_TO_TICKS(100)); // Update every 100ms
     }

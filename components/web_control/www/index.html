@@ -28,6 +28,13 @@
             </div>
         </header>
 
+        <!-- Sensor Display -->
+        <div class="sensor-display" style="display: flex; justify-content: space-around; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; margin: 15px 20px 0; color: white; font-family: monospace; font-size: 14px;">
+            <div style="text-align: center;">Left<br><span id="dist-left" style="font-weight: bold; font-size: 16px;">--</span> mm</div>
+            <div style="text-align: center;">Center<br><span id="dist-center" style="font-weight: bold; font-size: 16px;">--</span> mm</div>
+            <div style="text-align: center;">Right<br><span id="dist-right" style="font-weight: bold; font-size: 16px;">--</span> mm</div>
+        </div>
+
         <!-- Mode Control -->
         <div class="mode-wrapper" style="text-align: center; margin-top: 15px;">
             <button id="mode-button" class="mode-btn manual">

@@ -35,6 +35,9 @@ static int64_t g_last_command_time = 0;
 static uint8_t g_battery = 87;
 static float g_speed = 0.0;
 static uint8_t g_signal = 100;
+static uint16_t g_dist_left = 8190;
+static uint16_t g_dist_center = 8190;
+static uint16_t g_dist_right = 8190;
 
 // Forward declarations
 static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data);
@@ -225,10 +228,10 @@ static esp_err_t command_handler(httpd_req_t *req)
 static esp_err_t telemetry_handler(httpd_req_t *req)
 {
     // Create JSON response with telemetry
-    char json[100];
+    char json[120];
     snprintf(json, sizeof(json), 
-             "{\"battery\":%d,\"speed\":%.1f,\"signal\":%d}",
-             g_battery, g_speed, g_signal);
+             "{\"battery\":%d,\"speed\":%.1f,\"signal\":%d,\"sensors\":[%u,%u,%u]}",
+             g_battery, g_speed, g_signal, g_dist_left, g_dist_center, g_dist_right);
     
     httpd_resp_set_type(req, "application/json");
     httpd_resp_send(req, json, strlen(json));
@@ -378,10 +381,13 @@ bool web_control_is_connected(void)
     return g_client_connected;
 }
 
-esp_err_t web_control_send_telemetry(uint8_t battery_percent, float speed_kmh, uint8_t signal_strength)
+esp_err_t web_control_send_telemetry(uint8_t battery_percent, float speed_kmh, uint8_t signal_strength, uint16_t dist_left, uint16_t dist_center, uint16_t dist_right)
 {
     g_battery = battery_percent;
     g_speed = speed_kmh;
     g_signal = signal_strength;
+    g_dist_left = dist_left;
+    g_dist_center = dist_center;
+    g_dist_right = dist_right;
     return ESP_OK;
 }

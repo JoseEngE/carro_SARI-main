@@ -113,9 +113,12 @@ bool web_control_is_connected(void);
  * @param battery_percent Battery percentage (0-100)
  * @param speed_kmh Current speed in km/h
  * @param signal_strength Signal strength (0-100)
+ * @param dist_left Distance left (mm)
+ * @param dist_center Distance center (mm)
+ * @param dist_right Distance right (mm)
  * @return esp_err_t ESP_OK on success
  */
-esp_err_t web_control_send_telemetry(uint8_t battery_percent, float speed_kmh, uint8_t signal_strength);
+esp_err_t web_control_send_telemetry(uint8_t battery_percent, float speed_kmh, uint8_t signal_strength, uint16_t dist_left, uint16_t dist_center, uint16_t dist_right);
 
 #ifdef __cplusplus
 }
