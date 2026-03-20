@@ -1,0 +1,102 @@
+menu "VL53L0X ToF Sensor Configuration"
+
+    config VL53L0X_I2C_PORT
+        int "I2C Port Number"
+        default 0
+        range 0 1
+        help
+            I2C port number to use for VL53L0X sensor.
+            ESP32 has I2C_NUM_0 and I2C_NUM_1 available.
+
+    config VL53L0X_I2C_SDA_PIN
+        int "I2C SDA GPIO Pin"
+        default 21
+        range 0 39
+        help
+            GPIO pin number for I2C SDA signal.
+            Default is 21 for many ESP32 boards.
+
+    config VL53L0X_I2C_SCL_PIN
+        int "I2C SCL GPIO Pin"
+        default 22
+        range 0 39
+        help
+            GPIO pin number for I2C SCL signal.
+            Default is 22 for many ESP32 boards.
+
+    config VL53L0X_I2C_FREQ_HZ
+        int "I2C Frequency (Hz)"
+        default 400000
+        range 100000 1000000
+        help
+            I2C bus frequency in Hz.
+            400kHz (fast mode) is recommended.
+            
+    config VL53L0X_DEVICE_ADDRESS
+        hex "VL53L0X I2C Device Address"
+        default 0x29
+        help
+            I2C address of VL53L0X sensor.
+            Default is 0x29.
+
+    choice VL53L0X_MEASUREMENT_MODE
+        prompt "Default Measurement Mode"
+        default VL53L0X_MODE_DEFAULT
+        help
+            Select the default measurement mode for the sensor.
+            
+        config VL53L0X_MODE_DEFAULT
+            bool "Default Mode (Balanced)"
+            help
+                Balanced mode with good accuracy and speed.
+                Timing budget: 33ms
+                
+        config VL53L0X_MODE_HIGH_ACCURACY
+            bool "High Accuracy Mode"
+            help
+                High precision measurements, slower speed.
+                Timing budget: 200ms
+                
+        config VL53L0X_MODE_LONG_RANGE
+            bool "Long Range Mode"
+            help
+                Maximum range detection (~2m), moderate speed.
+                Timing budget: 33ms
+                
+        config VL53L0X_MODE_HIGH_SPEED
+            bool "High Speed Mode"
+            help
+                Fast measurements, lower accuracy.
+                Timing budget: 20ms
+    endchoice
+
+    config VL53L0X_MEASUREMENT_INTERVAL_MS
+        int "Measurement Interval (ms)"
+        default 100
+        range 10 10000
+        help
+            Time interval between measurements in milliseconds.
+            Minimum depends on the selected measurement mode.
+
+    config VL53L0X_TASK_STACK_SIZE
+        int "Task Stack Size (bytes)"
+        default 4096
+        range 2048 8192
+        help
+            Stack size for the VL53L0X measurement task.
+
+    config VL53L0X_TASK_PRIORITY
+        int "Task Priority"
+        default 5
+        range 1 24
+        help
+            FreeRTOS priority for the VL53L0X measurement task.
+
+    config VL53L0X_QUEUE_SIZE
+        int "Measurement Queue Size"
+        default 10
+        range 1 100
+        help
+            Number of measurement data items that can be queued.
+
+endmenu

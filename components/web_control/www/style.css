@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(to bottom, #f5f5f7, #e8e8ea);
+    color: #1d1d1f;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wifi-icon {
+    width: 20px;
+    height: 20px;
+    color: #34c759;
+}
+
+.latency {
+    font-size: 13px;
+    color: #34c759;
+    font-weight: 500;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #86868b;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #86868b;
+}
+
+.status.connected .status-dot {
+    background: #34c759;
+}
+
+.status.connected .status-text {
+    color: #34c759;
+}
+
+/* Main Control Area */
+.control-area {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 0;
+    position: relative;
+}
+
+.joystick-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.joystick-label {
+    font-size: 13px;
+    color: #86868b;
+    font-weight: 500;
+}
+
+.joystick {
+    position: relative;
+}
+
+.joystick-outer {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #d1d1d6;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.joystick-inner {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #d1d1d6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.joystick-inner:active {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.arrow {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    color: #d1d1d6;
+    pointer-events: none;
+}
+
+.arrow-left {
+    left: 15px;
+}
+
+.arrow-right {
+    right: 15px;
+}
+
+.arrow-up {
+    top: 15px;
+}
+
+.arrow-down {
+    bottom: 15px;
+}
+
+/* Stop Button */
+.stop-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.stop-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #ff3b30;
+    border: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+    transition: all 0.2s ease;
+}
+
+.stop-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.4);
+}
+
+.stop-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #1d1d1f;
+    font-weight: 500;
+}
+
+.info-icon {
+    width: 18px;
+    height: 18px;
+    color: #34c759;
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    .joystick-outer {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .joystick-inner {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .stop-button {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (min-height: 700px) {
+    .control-area {
+        padding: 60px 0;
+    }
+    
+    .joystick-outer {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .joystick-inner {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .stop-button {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+/* Mode Switch */
+.mode-btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.mode-btn.manual {
+    background-color: #007aff;
+    color: white;
+}
+.mode-btn.auto {
+    background-color: #34c759;
+    color: white;
+}

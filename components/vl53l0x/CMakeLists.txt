@@ -1,0 +1,11 @@
+idf_component_register(
+    SRCS 
+        "src/vl53l0x_platform.c"
+        "src/vl53l0x_api.c"
+        "src/vl53l0x_task.c"
+        "src/vl53l0x_api_calibration_debug.c"
+    INCLUDE_DIRS 
+        "include"
+    REQUIRES 
+        driver
+)
