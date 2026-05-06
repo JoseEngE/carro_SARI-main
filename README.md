@@ -14,8 +14,6 @@
 </table>
 
 
-Sistema avanzado de control para un carro RC con dirección tipo Ackermann (tracción trasera, dirección delantera). Basado en el ESP32-S3, este proyecto integra control web responsivo, gestión de múltiples sensores de distancia (VL53L0X) y un modo de conducción autónoma (Wall Follower).
-
 ## 🎯 Características Principales
 
 - ✅ **Control Web Remoto**: Interfaz móvil minimalista, control dual con joysticks virtuales (Multi-touch).
