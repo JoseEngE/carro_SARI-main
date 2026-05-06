@@ -9,11 +9,7 @@
     <td width="60%" valign="top">
       <h3>RC Car Control System - ESP32-S3</h3>
       <p>Sistema avanzado de control para un carro RC con dirección tipo Ackermann (tracción trasera, dirección delantera). Basado en el ESP32-S3, este proyecto integra control web responsivo, gestión de múltiples sensores de distancia (VL53L0X) y un modo de conducción autónoma (Wall Follower).</p>
-    </td>
-  </tr>
-</table>
-
-
+      
 ## 🎯 Características Principales
 
 - ✅ **Control Web Remoto**: Interfaz móvil minimalista, control dual con joysticks virtuales (Multi-touch).
@@ -25,8 +21,13 @@
 - ✅ **Telemetría en Tiempo Real**: Envío de lecturas de sensores, estado de batería simulado, velocidad y calidad de señal a la interfaz web.
 - ✅ **WiFi Access Point**: El ESP32 crea su propia red aislada de baja latencia.
 - ✅ **Arquitectura Modular**: Código altamente estructurado en componentes independientes de ESP-IDF.
+      
+    </td>
+  </tr>
+</table>
 
----
+
+
 
 ## 📁 Estructura del Proyecto
 
