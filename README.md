@@ -1,5 +1,13 @@
 # RC Car Control System - ESP32-S3
 
+
+
+
+
+https://github.com/user-attachments/assets/2d20ece8-12e0-4c50-b98b-551186aeced8
+
+
+
 Sistema avanzado de control para un carro RC con dirección tipo Ackermann (tracción trasera, dirección delantera). Basado en el ESP32-S3, este proyecto integra control web responsivo, gestión de múltiples sensores de distancia (VL53L0X) y un modo de conducción autónoma (Wall Follower).
 
 ## 🎯 Características Principales
