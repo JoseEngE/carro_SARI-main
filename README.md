@@ -66,7 +66,6 @@ carro_SARI-main/
   - Sensor Centro: GPIO 13
   - Sensor Izquierda: GPIO 12
 
-> **⚠️ IMPORTANTE**: Los motores MX1508 y los servos deben alimentarse desde una fuente externa de **5V**, separada de la alimentación del ESP32-S3. Es crítico conectar los **GND** de la fuente externa y el ESP32 en común para evitar comportamientos erráticos.
 
 ---
 
